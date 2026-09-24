@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+  (function () {
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  })();
+</script>
+<title>Handling Toolbox — SLA Calculator</title>
+<link rel="stylesheet" href="css/base.css?v=2">
+<link rel="stylesheet" href="css/voucher.css?v=1">
+<link rel="stylesheet" href="css/sla.css?v=1">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="mark">H</div>
+    <div>
+      <div class="name">Handling Toolbox</div>
+      <div class="sub">Internal tools</div>
+    </div>
+  </div>
+
+  <div class="theme-toggle" id="themeToggle">
+    <span>🌙 Dark mode</span>
+    <div class="switch"></div>
+  </div>
+
+  <div class="nav-label">Tools</div>
+  <div class="nav-item active" data-page="voucher"><span class="ic">🎟</span> Voucher Leniency</div>
+  <div class="nav-item" data-page="sla"><span class="ic">⏱</span> SLA Calculator</div>
+
+  <div class="sidebar-footer">
+    <div class="watermark">made with ☕ by <a href="https://github.com/danendrafau" target="_blank" rel="noopener">Danendra</a> · 2026</div>
+  </div>
+</aside>
+
+<main class="main">
+<div class="page" id="page-sla">
+  <div class="page-head">
+    <div class="eyebrow">SLA Calculator</div>
+    <h1>Hitung tenggat penanganan case</h1>
+    <div class="page-desc">Masukkan tanggal mulai dan jenis SLA — sistem otomatis menghitung tenggat, mempertimbangkan akhir pekan dan hari libur nasional bila diperlukan.</div>
+  </div>
+
+  <div class="card">
+    <h2>Detail Kasus</h2>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="startDate">Tanggal mulai</label>
+        <input type="date" id="startDate">
+      </div>
+      <div class="field" id="startTimeWrap">
+        <label for="startTime">Jam mulai</label>
+        <input type="time" id="startTime" value="09:00">
+      </div>
+
+      <div class="field span-2">
+        <label>Jenis SLA &amp; durasi</label>
+        <div class="duration-row">
+          <input type="number" id="duration" min="1" value="14">
+          <select id="slaType">
+            <option value="kalender">Hari kalender</option>
+            <option value="kerja">Hari kerja</option>
+            <option value="jam24">24 Jam</option>
+            <option value="jam">Jam</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field span-2" id="excludeWrap">
+        <label>Kecualikan</label>
+        <div class="check-group">
+          <label class="check-pill"><input type="checkbox" id="exSabtu"><span>Sabtu</span></label>
+          <label class="check-pill"><input type="checkbox" id="exMinggu"><span>Minggu</span></label>
+          <label class="check-pill"><input type="checkbox" id="exLibur"><span>Libur nasional</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card result-card">
+    <div class="result-main">
+      <div class="label">Tenggat (due date)</div>
+      <div class="due-date-row">
+        <div class="due-date" id="dueDateOut">—</div>
+        <button class="copy-btn" id="copyDueBtn" type="button" title="Salin tanggal tenggat">
+          <span class="icon">⧉</span> <span class="txt">Salin</span>
+        </button>
+      </div>
+      <div class="due-sub" id="dueSubOut">Isi form untuk melihat hasil</div>
+      <div class="status-pill safe" id="statusPill">
+        <span class="dot"></span> <span id="statusText">Aman</span>
+      </div>
+    </div>
+    <div class="countdown-box">
+      <div class="n" id="remainOut">—</div>
+      <div class="l">sisa waktu</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="holiday-toggle" id="holToggle">
+      <h2 style="margin:0;">Daftar Hari Libur Nasional 2026 <span style="font-weight:400;color:var(--text-muted);">(dapat diedit)</span></h2>
+      <span class="chev">›</span>
+    </div>
+    <div class="holiday-list" id="holList">
+      <div class="note-box">Data resmi hari libur nasional sesuai SKB Tiga Menteri, 2026 &amp; 2027.</div>
+
+      <div class="year-tabs">
+        <button class="year-tab active" data-year="2026">2026</button>
+        <button class="year-tab" data-year="2027">2027</button>
+      </div>
+
+      <table class="hol" id="holTable2026" data-year-table="2026">
+        <tr><th style="width:110px;">Tanggal</th><th style="width:90px;">Hari</th><th class="desc">Keterangan</th></tr>
+        <tr><td>2026-01-01</td><td>Kamis</td><td class="desc">Tahun Baru 2026 Masehi</td></tr>
+        <tr><td>2026-01-16</td><td>Jumat</td><td class="desc">Isra Mikraj Nabi Muhammad S.A.W.</td></tr>
+        <tr><td>2026-02-17</td><td>Selasa</td><td class="desc">Tahun Baru Imlek 2577 Kongzili</td></tr>
+        <tr><td>2026-03-19</td><td>Kamis</td><td class="desc">Hari Suci Nyepi (Tahun Baru Saka 1948)</td></tr>
+        <tr><td>2026-03-21</td><td>Sabtu</td><td class="desc">Idul Fitri 1447 Hijriah</td></tr>
+        <tr><td>2026-03-22</td><td>Minggu</td><td class="desc">Idul Fitri 1447 Hijriah</td></tr>
+        <tr><td>2026-04-03</td><td>Jumat</td><td class="desc">Wafat Yesus Kristus</td></tr>
+        <tr><td>2026-04-05</td><td>Minggu</td><td class="desc">Kebangkitan Yesus Kristus (Paskah)</td></tr>
+        <tr><td>2026-05-01</td><td>Jumat</td><td class="desc">Hari Buruh Internasional</td></tr>
+        <tr><td>2026-05-14</td><td>Kamis</td><td class="desc">Kenaikan Yesus Kristus</td></tr>
+        <tr><td>2026-05-27</td><td>Rabu</td><td class="desc">Idul Adha 1447 Hijriah</td></tr>
+        <tr><td>2026-05-31</td><td>Minggu</td><td class="desc">Hari Raya Waisak 2570 BE</td></tr>
+        <tr><td>2026-06-01</td><td>Senin</td><td class="desc">Hari Lahir Pancasila</td></tr>
+        <tr><td>2026-06-16</td><td>Selasa</td><td class="desc">1 Muharam Tahun Baru Islam 1448 Hijriah</td></tr>
+        <tr><td>2026-08-17</td><td>Senin</td><td class="desc">Proklamasi Kemerdekaan</td></tr>
+        <tr><td>2026-08-25</td><td>Selasa</td><td class="desc">Maulid Nabi Muhammad S.A.W.</td></tr>
+        <tr><td>2026-12-25</td><td>Jumat</td><td class="desc">Kelahiran Yesus Kristus</td></tr>
+      </table>
+
+      <table class="hol" id="holTable2027" data-year-table="2027" style="display:none;">
+        <tr><th style="width:110px;">Tanggal</th><th style="width:90px;">Hari</th><th class="desc">Keterangan</th></tr>
+        <tr><td>2027-01-01</td><td>Jumat</td><td class="desc">Tahun Baru 2027 Masehi</td></tr>
+        <tr><td>2027-01-05</td><td>Selasa</td><td class="desc">Isra Mikraj Nabi Muhammad S.A.W. 1448 Hijrah</td></tr>
+        <tr><td>2027-02-06</td><td>Sabtu</td><td class="desc">Tahun Baru Imlek 2578 Kongzili</td></tr>
+        <tr><td>2027-03-08</td><td>Senin</td><td class="desc">Hari Suci Nyepi (Tahun Baru Saka 1949)</td></tr>
+        <tr><td>2027-03-10</td><td>Rabu</td><td class="desc">Idul Fitri 1448 Hijriah</td></tr>
+        <tr><td>2027-03-11</td><td>Kamis</td><td class="desc">Idul Fitri 1448 Hijriah</td></tr>
+        <tr><td>2027-03-26</td><td>Jumat</td><td class="desc">Wafat Yesus Kristus</td></tr>
+        <tr><td>2027-03-28</td><td>Minggu</td><td class="desc">Kebangkitan Yesus Kristus (Paskah)</td></tr>
+        <tr><td>2027-05-01</td><td>Sabtu</td><td class="desc">Hari Buruh Internasional</td></tr>
+        <tr><td>2027-05-06</td><td>Kamis</td><td class="desc">Kenaikan Yesus Kristus</td></tr>
+        <tr><td>2027-05-17</td><td>Senin</td><td class="desc">Idul Adha 1448 Hijriah</td></tr>
+        <tr><td>2027-05-20</td><td>Kamis</td><td class="desc">Hari Raya Waisak 2571 BE</td></tr>
+        <tr><td>2027-06-01</td><td>Selasa</td><td class="desc">Hari Lahir Pancasila</td></tr>
+        <tr><td>2027-06-06</td><td>Minggu</td><td class="desc">1 Muharam Tahun Baru Islam 1449 Hijriah</td></tr>
+        <tr><td>2027-08-15</td><td>Minggu</td><td class="desc">Maulid Nabi Muhammad S.A.W.</td></tr>
+        <tr><td>2027-08-17</td><td>Selasa</td><td class="desc">Proklamasi Kemerdekaan</td></tr>
+        <tr><td>2027-12-25</td><td>Sabtu</td><td class="desc">Kelahiran Yesus Kristus</td></tr>
+        <tr><td>2027-12-26</td><td>Minggu</td><td class="desc">Isra Mikraj Nabi Muhammad S.A.W. 1449 Hijriah</td></tr>
+      </table>
+
+      <div class="add-holiday-row" id="addHolidayRow" style="display:none;">
+        <input type="date" id="newHolDate">
+        <input type="text" id="newHolDesc" placeholder="Keterangan (misal: Cuti bersama)">
+        <button class="mini-btn primary" id="confirmAddHol" type="button">Tambah</button>
+        <button class="mini-btn" id="cancelAddHol" type="button">Batal</button>
+      </div>
+      <button class="add-holiday-btn" id="addHolidayBtn" type="button">+ Tambah tanggal libur / cuti bersama</button>
+    </div>
+  </div>
+</div>
+
+<div class="page active" id="page-voucher">
+  <div class="page-head">
+    <div class="eyebrow">Voucher Leniency</div>
+    <h1>Hitung voucher kompensasi</h1>
+    <div class="page-desc">Tempel nominal kendala, pilih jenis user, dan sistem otomatis menghitung voucher kompensasi sesuai ketentuan.</div>
+  </div>
+
+  <div class="card">
+    <h2>Detail Kasus</h2>
+    <div class="form-grid">
+      <div class="field span-2">
+        <label for="voucherNominal">Nominal kendala</label>
+        <div class="input-affix">
+          <span class="affix">Rp</span>
+          <input type="text" id="voucherNominal" class="text-input" inputmode="numeric" placeholder="Tempel nominal, misal Rp25.000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="userType">Jenis user</label>
+        <select id="userType">
+          <option value="vip">VIP</option>
+          <option value="reguler">Reguler</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="voucherPercent">Persentase (%)</label>
+        <input type="number" id="voucherPercent" min="0" step="1">
+      </div>
+
+      <div class="field">
+        <label for="voucherMin">Minimal voucher (Rp)</label>
+        <input type="number" id="voucherMin" min="0" step="1000">
+      </div>
+      <div class="field">
+        <label for="voucherMax">Maksimal voucher (Rp)</label>
+        <input type="number" id="voucherMax" min="0" step="1000">
+      </div>
+    </div>
+  </div>
+
+  <div class="card result-card" style="grid-template-columns: 1fr;">
+    <div class="result-main">
+      <div class="label">Hasil Perhitungan</div>
+      <div class="due-date" id="voucherResultOut">Rp0</div>
+      <div class="due-sub" id="voucherResultSub">Isi nominal untuk melihat hasil</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Template internal notes</h2>
+    <div class="note-box">Salin template di bawah ini, lalu tempelkan ke internal notes sistem customer service supaya datanya terlengkapi.</div>
+    <pre class="template-box" id="voucherTemplateOut"></pre>
+    <button class="copy-btn" id="copyTemplateBtn" type="button" style="margin-top:10px;">
+      <span class="icon">⧉</span> <span class="txt">Salin Template</span>
+    </button>
+  </div>
+</div>
+
+</main>
+
+<script src="js/common.js?v=1" defer></script>
+<script src="js/voucher.js?v=1" defer></script>
+<script src="js/sla.js?v=1" defer></script>
+
+</body>
+</html>

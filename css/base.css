@@ -1,0 +1,387 @@
+/* ============================================================
+   base.css — dipakai di SEMUA tools. Isinya:
+   variabel tema/warna, dark mode, layout sidebar & main,
+   komponen umum (card, form-grid, field, input, result box,
+   copy-btn, note-box). Style yang spesifik untuk satu tool
+   ada di file terpisah: voucher.css, sla.css, retry-reallocate.css
+   ============================================================ */
+
+/* Font di-hosting sendiri (file .woff ada di folder /fonts) supaya
+   website tetap tampil sama persis walau dibuka tanpa internet.
+   Lisensi: SIL Open Font License — lihat fonts/OFL.txt */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../fonts/IBMPlexMono-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../fonts/IBMPlexMono-Bold.woff') format('woff');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+    --bg: #F5F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #FAFBFC;
+    --sidebar-bg: #101B31;
+    --sidebar-bg-2: #16223D;
+    --sidebar-text: #98A5BF;
+    --sidebar-text-active: #FFFFFF;
+    --sidebar-border: #22304F;
+    --accent: #2F6F4F;
+    --accent-strong: #235939;
+    --accent-soft: #E4F0EA;
+    --text: #1B2430;
+    --text-muted: #66707F;
+    --border: #E2E5EA;
+    --safe: #2F6F4F;
+    --safe-soft: #E4F0EA;
+    --warn: #9A6300;
+    --warn-soft: #FBF0DA;
+    --danger: #B3261E;
+    --danger-soft: #FBE7E5;
+    --radius: 10px;
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1420;
+      --surface: #161E2E;
+      --surface-2: #131A28;
+      --sidebar-bg: #0A1120;
+      --sidebar-bg-2: #101828;
+      --sidebar-border: #202C44;
+      --text: #E7EAF1;
+      --text-muted: #97A1B5;
+      --border: #263050;
+      --accent-soft: #163529;
+      --safe-soft: #163529;
+      --warn-soft: #33260A;
+      --danger-soft: #3A1917;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1420;
+    --surface: #161E2E;
+    --surface-2: #131A28;
+    --sidebar-bg: #0A1120;
+    --sidebar-bg-2: #101828;
+    --sidebar-border: #202C44;
+    --text: #E7EAF1;
+    --text-muted: #97A1B5;
+    --border: #263050;
+    --accent-soft: #163529;
+    --safe-soft: #163529;
+    --warn-soft: #33260A;
+    --danger-soft: #3A1917;
+  }
+  /* elemen yang butuh teks putih penuh di dark mode (bukan cuma var(--text)) */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .status-pill,
+    :root:not([data-theme="light"]) .check-pill:has(input:checked),
+    :root:not([data-theme="light"]) .copy-btn.copied,
+    :root:not([data-theme="light"]) tr.custom-row td.desc::after,
+    :root:not([data-theme="light"]) .year-tab.active {
+      color: #FFFFFF;
+    }
+  }
+  :root[data-theme="dark"] .status-pill,
+  :root[data-theme="dark"] .check-pill:has(input:checked),
+  :root[data-theme="dark"] .copy-btn.copied,
+  :root[data-theme="dark"] tr.custom-row td.desc::after,
+  :root[data-theme="dark"] .year-tab.active {
+    color: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); min-height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    width: 248px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, var(--sidebar-bg), var(--sidebar-bg-2));
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 14px;
+    border-right: 1px solid var(--sidebar-border);
+  }
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px 22px;
+  }
+  .sidebar-brand .mark {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    color: white;
+    font-weight: 600;
+  }
+  .sidebar-brand .name {
+    color: var(--sidebar-text-active);
+    font-weight: 600;
+    font-size: 14.5px;
+    line-height: 1.2;
+  }
+  .sidebar-brand .sub {
+    font-size: 11.5px;
+    color: var(--sidebar-text);
+    opacity: .8;
+  }
+  .nav-label {
+    font-size: 11px;
+    text-transform: none;
+    letter-spacing: .02em;
+    color: var(--sidebar-text);
+    opacity: .6;
+    padding: 14px 10px 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    margin-bottom: 2px;
+    text-decoration: none;
+  }
+  .nav-item .ic {
+    width: 18px; text-align: center; font-size: 14px;
+  }
+  .nav-item.active {
+    background: rgba(255,255,255,0.08);
+    color: var(--sidebar-text-active);
+    font-weight: 500;
+  }
+  .nav-item.disabled {
+    opacity: .45;
+    cursor: default;
+  }
+  .nav-item.disabled .tag {
+    margin-left: auto;
+    font-size: 10px;
+    border: 1px solid var(--sidebar-border);
+    padding: 1px 6px;
+    border-radius: 20px;
+  }
+  .sidebar-footer {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sidebar-border);
+  }
+  .watermark {
+    text-align: center;
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--sidebar-text);
+    opacity: .8;
+    padding: 4px 4px 2px;
+    letter-spacing: .01em;
+  }
+  .watermark a {
+    color: var(--sidebar-text-active);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: var(--sidebar-text);
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--sidebar-border);
+    padding-bottom: 16px;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.06); }
+  .switch {
+    width: 32px; height: 18px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    position: relative;
+    transition: background .15s ease;
+  }
+  .switch::after {
+    content: "";
+    position: absolute;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: white;
+    top: 2px; left: 2px;
+    transition: left .15s ease;
+  }
+  [data-theme="dark"] .switch { background: var(--accent); }
+  [data-theme="dark"] .switch::after { left: 16px; }
+
+  /* ---------- Main / halaman umum ---------- */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 36px 60px;
+    max-width: 980px;
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+  .page-head {
+    margin-bottom: 22px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 0 0 6px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .page-desc {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    max-width: 60ch;
+  }
+
+  /* ---------- Card & form (dipakai semua tools) ---------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 18px;
+  }
+  .card h2 {
+    font-size: 14px;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.span-2 { grid-column: 1 / -1; }
+  label {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  input[type=date], input[type=time], input[type=number], select, .text-input {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    width: 100%;
+  }
+  select { font-family: var(--font-ui); }
+  input:focus, select:focus, .nav-item:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .input-affix {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+  .input-affix .affix {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+  }
+  .input-affix input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+  .input-affix input:focus { outline: none; }
+
+  /* ---------- Result box (dipakai SLA Calculator & Voucher Leniency) ---------- */
+  .result-card {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 22px;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .result-card, .form-grid { grid-template-columns: 1fr; } }
+
+  .result-main .label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .due-date-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .due-date {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .due-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-ui);
+    font-size: 11.5px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--safe); color: var(--safe); background: var(--safe-soft); }
+
+  /* ---------- Note box (dipakai SLA, Voucher, Retry & Reallocate) ---------- */
+  .note-box {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 9px 11px;
+    margin-bottom: 12px;
+  }

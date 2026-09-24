@@ -1,0 +1,18 @@
+/* ============================================================
+   voucher.css — style khusus tool Voucher Leniency saja.
+   (variabel tema, card, form, copy-btn, note-box ada di base.css)
+   ============================================================ */
+
+.template-box {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--text);
+  margin: 0;
+}

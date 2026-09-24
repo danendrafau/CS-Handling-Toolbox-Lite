@@ -1,0 +1,134 @@
+/* ============================================================
+   sla.css — style khusus tool SLA Calculator saja.
+   (variabel tema, card, form, result box, copy-btn, note-box
+   ada di base.css)
+   ============================================================ */
+
+.duration-row { display: flex; gap: 8px; }
+.duration-row input { flex: 1; }
+.duration-row select { flex: 1.4; }
+
+.check-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.check-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 13px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.check-pill input { width: 15px; height: 15px; accent-color: var(--accent); margin: 0; }
+.check-pill:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+.status-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+.status-pill.safe { background: var(--safe-soft); color: var(--safe); }
+.status-pill.safe .dot { background: var(--safe); }
+.status-pill.warn { background: var(--warn-soft); color: var(--warn); }
+.status-pill.warn .dot { background: var(--warn); }
+.status-pill.danger { background: var(--danger-soft); color: var(--danger); }
+.status-pill.danger .dot { background: var(--danger); }
+
+.countdown-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.countdown-box .n {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+}
+.countdown-box .l { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+
+.holiday-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+}
+.holiday-toggle .chev { transition: transform .15s ease; color: var(--text-muted); }
+.holiday-toggle.open .chev { transform: rotate(90deg); }
+.holiday-list { margin-top: 14px; display: none; }
+.holiday-list.open { display: block; }
+
+.year-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.year-tab {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.year-tab.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 500; }
+
+table.hol { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+table.hol th {
+  text-align: left; font-weight: 500; color: var(--text-muted);
+  padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 11.5px;
+}
+table.hol td { padding: 7px 8px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); }
+table.hol td.desc { font-family: var(--font-ui); }
+
+.add-holiday-btn {
+  margin-top: 10px;
+  font-size: 12px;
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  padding: 7px 10px;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+.add-holiday-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.add-holiday-row input[type=date] { flex: 0 0 150px; }
+.add-holiday-row input[type=text] { flex: 1; min-width: 160px; }
+.add-holiday-row input.field-error { border-color: var(--danger); }
+
+.mini-btn {
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+.mini-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+tr.custom-row td { background: var(--warn-soft); }
+tr.custom-row td.desc::after {
+  content: "Custom";
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: 20px;
+  padding: 1px 7px;
+  vertical-align: middle;
+}
