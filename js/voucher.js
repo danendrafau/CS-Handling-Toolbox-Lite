@@ -84,3 +84,13 @@ Thanks team`;
     HT.flashButton(copyTemplateBtn, copyTemplateBtn.querySelector('.txt'), 'Disalin!', 'Salin Template');
   });
 })();
+
+// ---- salin nominal hasil voucher ----
+(function () {
+  const btn = document.getElementById('copyVoucherBtn');
+  const out = document.getElementById('voucherResultOut');
+  btn.addEventListener('click', async () => {
+    await HT.copyText(out.textContent);
+    HT.flashButton(btn, btn.querySelector('.txt'), 'Disalin!', 'Salin');
+  });
+})();

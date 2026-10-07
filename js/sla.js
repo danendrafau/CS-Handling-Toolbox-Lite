@@ -93,7 +93,7 @@
     const showTime = (type === 'jam' || type === 'jam24');
 
     startTimeWrap.style.display = showTime ? 'flex' : 'none';
-    excludeWrap.style.display = 'flex';
+    excludeWrap.style.display = type === 'kalender' ? 'none' : 'flex';
 
     if (!startDate.value) return;
     const timeStr = showTime ? (startTime.value || '00:00') : '00:00';

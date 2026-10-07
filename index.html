@@ -10,7 +10,7 @@
   })();
 </script>
 <title>Handling Toolbox — SLA Calculator</title>
-<link rel="stylesheet" href="css/base.css?v=2">
+<link rel="stylesheet" href="css/base.css?v=3">
 <link rel="stylesheet" href="css/voucher.css?v=1">
 <link rel="stylesheet" href="css/sla.css?v=1">
 </head>
@@ -215,7 +215,12 @@
   <div class="card result-card" style="grid-template-columns: 1fr;">
     <div class="result-main">
       <div class="label">Hasil Perhitungan</div>
-      <div class="due-date" id="voucherResultOut">Rp0</div>
+      <div class="due-date-row">
+        <div class="due-date" id="voucherResultOut">Rp0</div>
+        <button class="copy-btn" id="copyVoucherBtn" type="button" title="Salin nominal voucher">
+          <span class="icon">⧉</span> <span class="txt">Salin</span>
+        </button>
+      </div>
       <div class="due-sub" id="voucherResultSub">Isi nominal untuk melihat hasil</div>
     </div>
   </div>
@@ -233,8 +238,8 @@
 </main>
 
 <script src="js/common.js?v=1" defer></script>
-<script src="js/voucher.js?v=1" defer></script>
-<script src="js/sla.js?v=1" defer></script>
+<script src="js/voucher.js?v=2" defer></script>
+<script src="js/sla.js?v=2" defer></script>
 
 </body>
 </html>
